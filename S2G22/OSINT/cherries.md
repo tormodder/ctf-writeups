@@ -1,5 +1,8 @@
 I completely forgot to save the task and picture for this writeup. But essentially we're given the cherries.png image and told the locaiton is in the Vestre Aker District of Oslo, and to find the building number of the house on the right.
 
+![alt text](https://github.com/tormodder/ctf/tree/main/S2G22/OSINT/cherries.png?raw=true)
+
+
 After some failed attempts at trying to Google lens both houses, hoping they had been involved in some public news story in the past, I realized the best way to solve the challenge was to simply deduce where it could be and use google street view. 
 
 For this it turned out a past job as a delivery driver in northern Oslo would come in handy. Vestre Aker has some distinguishing geographical features. Namely, the large Holmenkollen ski jump in the north, and the fact that very many houses have a view of the fjord and the city centre. In the picture it looks like our house has neither, so at the very least it cannot be in the northern part of Vestre Aker.
