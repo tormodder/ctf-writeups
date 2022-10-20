@@ -1,6 +1,6 @@
-I completely forgot to save the task and picture for this writeup. But essentially we're given the cherries.png image and told the locaiton is in the Vestre Aker District of Oslo, and to find the building number of the house on the right.
+I completely forgot to save the task and picture for this writeup. But essentially we're given the
+![cherries.png](https://github.com/tormodder/ctf/tree/main/S2G22/OSINT/cherries.png?raw=true) image and told the locaiton is in the Vestre Aker District of Oslo, and to find the building number of the house on the right.
 
-![alt text](https://github.com/tormodder/ctf/tree/main/S2G22/OSINT/cherries.png?raw=true)
 
 
 After some failed attempts at trying to Google lens both houses, hoping they had been involved in some public news story in the past, I realized the best way to solve the challenge was to simply deduce where it could be and use google street view. 
