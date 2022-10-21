@@ -1,7 +1,8 @@
-I completely forgot to save the task and picture for this writeup. But essentially we're given the
-![cherries.png](https://github.com/tormodder/ctf/tree/main/S2G22/OSINT/cherries.png?raw=true) image and told the locaiton is in the Vestre Aker District of Oslo, and to find the building number of the house on the right.
-
-
+Task:
+```
+Geir loves cherries and would like to ask the owner of the tree, if he could get some, but forgot where the picture was taken. He only remembers that it was taken somewhere in Vestre Aker. Can you help him find it? What is the building number (bygningsnummer) of the black house seen in the picture?
+```
+![image](https://github.com/tormodder/ctf/tree/main/S2G22/OSINT/cherries.png?raw=true)
 
 After some failed attempts at trying to Google lens both houses, hoping they had been involved in some public news story in the past, I realized the best way to solve the challenge was to simply deduce where it could be and use google street view. 
 
@@ -14,3 +15,5 @@ I still hadn't narrowed it down very much though, and spent quite a bit of time 
 Anyway, having earlier ruled out that the view had to be towards the north, since I would probably see the ski jump or at least the large hill it's positioned on if that were the case, I figured the location had to be north of Røa, but close. This turned out to be true. I placed the marker arbitrarily on Sørkedalsveien, the main road leading north from Røa. Turns out I got immensely lucky, and didn't have to walk long until I came upon the house - Sørkedalsveien 217
 
 I still wasn't done though, since the challenge asked for the building number, not the address. This would turn out to be the easiest part of the challenge. I just googled how to find building numbers, input the address on "https://seeiendom.kartverket.no/" and got the number: 80063954.
+
+The flag was S2G{80063954}
