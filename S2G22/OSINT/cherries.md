@@ -1,6 +1,8 @@
 Task:
 ```
-Geir loves cherries and would like to ask the owner of the tree, if he could get some, but forgot where the picture was taken. He only remembers that it was taken somewhere in Vestre Aker. Can you help him find it? What is the building number (bygningsnummer) of the black house seen in the picture?
+Geir loves cherries and would like to ask the owner of the tree, if he could get some, but forgot where the picture was taken. 
+He only remembers that it was taken somewhere in Vestre Aker. Can you help him find it? 
+What is the building number (bygningsnummer) of the black house seen in the picture?
 ```
 ![image](https://github.com/tormodder/ctf/tree/main/S2G22/OSINT/cherries.png?raw=true)
 
