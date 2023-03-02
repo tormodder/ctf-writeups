@@ -10,6 +10,8 @@ Are you ready? (y/n) y
 Word number 1 is: five
 Enter the word: 
 ```
+I already knew this was possible to solve relatively simply with pwntools, having done a couple of tasks like this before. So I got to it, not being very proficient in pwntools. After quite a lot of debugging I was left with the script below, which gave me the flag.
+
 
 Solution
 ```
@@ -18,12 +20,8 @@ from pwn import *
 r = remote("10.212.138.23", 54790)
 r.sendlineafter(b"(y/n)",'y')
 for i in range(50):
-    x = r.recvuntil(b': ', timeout=1, drop=True)
-    print(i)
-    print("x: ", x)
-   # r.recvuntil(b': ', timeout=1, drop=True)
+    r.recvuntil(b': ', timeout=1, drop=True)
     w = r.recvline()
     y = w.decode().strip("\n").encode()
-    print("w: ", w,"y: ", y)
     r.sendlineafter(b': ', y)
 print(r.recvline())
